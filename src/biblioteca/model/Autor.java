@@ -5,6 +5,11 @@ public class Autor {
     private String nome;
     private String sobrenome;
 
+    public Autor(String nome, String sobrenome) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+    }
+    
     public Autor(int id, String nome, String sobrenome) {
         this.id = id;
         this.nome = nome;

@@ -1,3 +1,6 @@
+package biblioteca;
+
+import biblioteca.view.TelaBiblioteca;
 
 public class Biblioteca {
     public static void main(String[] args) {

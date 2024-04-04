@@ -3,16 +3,24 @@ package biblioteca.model;
 import java.sql.Date;
 
 public class Livro {
+
     private int id;
     private String titulo;
     private Date dataPublicacao;
     private int autorId;
+    private int quantidadeEstoque;
+    private String status;
 
-    public Livro(int id, String titulo, Date dataPublicacao, int autorId) {
+    public Livro() {
+    }
+
+    public Livro(int id, String titulo, Date dataPublicacao, int autorId, int quantidadeEstoque, String status) {
         this.id = id;
         this.titulo = titulo;
         this.dataPublicacao = dataPublicacao;
         this.autorId = autorId;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.status = status;
     }
 
     public int getId() {
@@ -45,5 +53,21 @@ public class Livro {
 
     public void setAutorId(int autorId) {
         this.autorId = autorId;
+    }
+
+    public int getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
+
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
