@@ -22,7 +22,21 @@ public class Livro {
         this.quantidadeEstoque = quantidadeEstoque;
         this.status = status;
     }
+    
+    public Livro(String titulo, Date dataPublicacao, int autorId, int quantidadeEstoque, String status) {
+        this.titulo = titulo;
+        this.dataPublicacao = dataPublicacao;
+        this.autorId = autorId;
+        this.quantidadeEstoque = quantidadeEstoque;
+        this.status = status;
+    }
 
+    public Livro(String titulo, Date dataPublicacao, int autorId) {
+    this.titulo = titulo;
+    this.dataPublicacao = dataPublicacao;
+    this.autorId = autorId;
+}
+    
     public int getId() {
         return id;
     }

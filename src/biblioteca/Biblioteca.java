@@ -1,6 +1,7 @@
 package biblioteca;
 
 import biblioteca.view.TelaBiblioteca;
+import biblioteca.view.TelaLogin;
 
 public class Biblioteca {
     public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class Biblioteca {
         LivroDAO livroDAO = new LivroDAO();
         livroDAO.cadastrarLivro(livro);*/
         
-        TelaBiblioteca tela = new TelaBiblioteca();
+        TelaLogin tela = new TelaLogin();
         tela.setVisible(true);
     }
 }

@@ -33,7 +33,7 @@ public final class TelaReserva extends javax.swing.JFrame {
             Object[] row = new Object[3];
             row[0] = livro.getId();
             row[1] = livro.getTitulo();
-            row[2] = livro.getStatusLivro();
+            row[2] = livro.getStatus();
             model.addRow(row);
         }
         tbLivros.setModel(model);
@@ -237,30 +237,20 @@ public final class TelaReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDevolverLivroActionPerformed
 
     private void btnReservarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarLivroActionPerformed
-        String codigoLivroStr = txtCodigoReserva.getText().trim();
-        if (codigoLivroStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira o código do livro.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int livroId;
         try {
-            livroId = Integer.parseInt(codigoLivroStr);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "O código do livro deve ser um número.", "Formato inválido", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (livroController.verificarDisponibilidadeLivro(livroId)) {
-            reservaController.fazerReserva(livroId);
-            livroController.atualizarStatusLivro(livroId, "reservado");
-            loadTableLivros();
-            System.out.println("Livro reservado com sucesso.");
+            int livroId = Integer.parseInt(txtCodigoReserva.getText().trim());
+            if (livroController.verificarDisponibilidadeLivro(livroId)) {
+                reservaController.fazerReserva(livroId);
+                livroController.atualizarStatusLivro(livroId, "reservado");
+                JOptionPane.showMessageDialog(this, "Livro reservado com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "O livro selecionado já está reservado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
             txtCodigoReserva.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "O livro selecionado já está reservado.", "Livro indisponível", JOptionPane.WARNING_MESSAGE);
+            loadTableLivros();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um código válido.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        loadTableLivros();
     }//GEN-LAST:event_btnReservarLivroActionPerformed
 
     public static void main(String args[]) {

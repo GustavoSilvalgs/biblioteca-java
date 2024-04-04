@@ -214,6 +214,12 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
 
         txtId.setEditable(false);
 
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
+
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/biblioteca/view/src/images/ok.png"))); // NOI18N
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -886,6 +892,10 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     private void login() {
         String usuario = txtUsuario.getText();

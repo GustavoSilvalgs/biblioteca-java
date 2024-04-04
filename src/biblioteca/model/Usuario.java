@@ -16,8 +16,6 @@ public class Usuario {
         this.tipo = tipo;
     }
     
-    
-    
     public int getId() {
         return id;
     }

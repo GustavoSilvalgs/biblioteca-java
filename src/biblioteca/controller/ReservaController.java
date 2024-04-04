@@ -47,13 +47,12 @@ public class ReservaController {
         return reservas;
     }
 
-    public void fazerReserva(int livroId, int usuarioId) {
-        String query = "INSERT INTO reserva_livro (livro_id, usuario_id, data_reserva) VALUES (?, ?, NOW())";
-        try (Connection conn = connectionFactory.getConnection();
+    public void fazerReserva(int livroId) {
+        String query = "INSERT INTO reserva_livro (livro_id, data_reserva) VALUES (?, NOW())";
+        try (Connection conn = connectionFactory.getConnection(); 
              PreparedStatement statement = conn.prepareStatement(query)) {
 
             statement.setInt(1, livroId);
-            statement.setInt(2, usuarioId);
             statement.executeUpdate();
 
             System.out.println("Reserva realizada com sucesso.");
