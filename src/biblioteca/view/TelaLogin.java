@@ -1,16 +1,31 @@
 package biblioteca.view;
 
 import biblioteca.controller.UsuarioController;
+import biblioteca.model.Usuario;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class TelaLogin extends javax.swing.JFrame {
 
     private UsuarioController usuarioController = new UsuarioController();
-    
+    private DefaultListModel<String> modelUsuarios = new DefaultListModel<>();
+
     public TelaLogin() {
         initComponents();
         setLocationRelativeTo(null);
+        atualizarListaUsuarios();
     }
+
+    private void atualizarListaUsuarios() {
+        modelUsuarios.clear();
+
+        List<Usuario> usuarios = usuarioController.listarUsuarios();
+
+        for (Usuario usuario : usuarios) {
+            modelUsuarios.addElement(usuario.getNome());
+        }
+    }   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -124,45 +139,27 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
-        String usuario = txtUsuario.getText().trim();
 
-        if (usuarioController.usuarioExiste(usuario)) {
-            txtSenha.setEnabled(true);
-            txtSenha.requestFocus();
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuário não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
-            txtUsuario.setText("");
-            txtUsuario.requestFocus();
-        }
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
-        String usuario = txtUsuario.getText().trim();
-        String senha = new String(txtSenha.getPassword());
 
-        if (usuarioController.senhaCorreta(usuario, senha)) {
-            btnLogin.setEnabled(true);
-            btnLogin.requestFocus();
-        } else {
-            JOptionPane.showMessageDialog(this, "Senha incorreta", "Erro", JOptionPane.ERROR_MESSAGE);
-            txtSenha.setText("");
-            txtSenha.requestFocus();
-        }
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String usuario = txtUsuario.getText().trim();
-        String senha = new String(txtSenha.getPassword());
+        String senha = new String(txtSenha.getPassword()).trim();
 
-        if (usuarioController.login(usuario, senha)) {
-            TelaReserva telaReserva = new TelaReserva();
-            telaReserva.setVisible(true);
-            this.dispose();
+        if (!usuario.isEmpty() && !senha.isEmpty()) {
+            if (usuarioController.login(usuario, senha)) {
+                TelaReserva telaReserva = new TelaReserva();
+                telaReserva.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos", "Erro", JOptionPane.ERROR_MESSAGE);
-            txtUsuario.setText("");
-            txtSenha.setText("");
-            txtUsuario.requestFocus();
+            JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

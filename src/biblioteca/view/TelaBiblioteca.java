@@ -44,7 +44,7 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
             row[2] = livro.getDataPublicacao();
             row[3] = livro.getAutorId();
             model.addRow(row);
-            listaLivro.add(livro); 
+            listaLivro.add(livro);
         }
         tbLivros.setModel(model);
     }
@@ -622,39 +622,39 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-         String nome = txtNome.getText();
-    String sobrenome = txtSobrenome.getText();
+        String nome = txtNome.getText();
+        String sobrenome = txtSobrenome.getText();
 
-    if (txtId.getText().isEmpty()) {
-        Autor novoAutor = new Autor(nome, sobrenome);
-        AutorController ac = new AutorController();
-        ac.addAutor(novoAutor); 
-        listaAutor.add(novoAutor); 
-    } else {
-        int id = Integer.parseInt(txtId.getText());
-        Autor autorExistente = null;
+        if (txtId.getText().isEmpty()) {
+            Autor novoAutor = new Autor(nome, sobrenome);
+            AutorController ac = new AutorController();
+            ac.addAutor(novoAutor);
+            listaAutor.add(novoAutor);
+        } else {
+            int id = Integer.parseInt(txtId.getText());
+            Autor autorExistente = null;
 
-        for (Autor autor : listaAutor) {
-            if (autor.getId() == id) {
-                autorExistente = autor;
-                break;
+            for (Autor autor : listaAutor) {
+                if (autor.getId() == id) {
+                    autorExistente = autor;
+                    break;
+                }
+            }
+
+            if (autorExistente != null) {
+                autorExistente.setNome(nome);
+                autorExistente.setSobrenome(sobrenome);
+                AutorController ac = new AutorController();
+                ac.updateAutor(autorExistente);
             }
         }
 
-        if (autorExistente != null) {
-            autorExistente.setNome(nome);
-            autorExistente.setSobrenome(sobrenome);
-            AutorController ac = new AutorController();
-            ac.updateAutor(autorExistente); 
-        }
-    }
+        loadTableAutores();
 
-    loadTableAutores();
-
-    handleInterface("Navigate");
-    txtId.setText("");
-    txtNome.setText("");
-    txtSobrenome.setText("");
+        handleInterface("Navigate");
+        txtId.setText("");
+        txtNome.setText("");
+        txtSobrenome.setText("");
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAutorActionPerformed
@@ -812,7 +812,7 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
             txtIdLivro.setText(String.valueOf(id));
             txtTitulo.setText(livroSelecionado.getTitulo());
             txtData.setText(livroSelecionado.getDataPublicacao().toString()); //
-            txtIdAutor.setText(String.valueOf(livroSelecionado.getAutorId())); 
+            txtIdAutor.setText(String.valueOf(livroSelecionado.getAutorId()));
 
             txtId.setEditable(false);
 
@@ -894,7 +894,7 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void login() {

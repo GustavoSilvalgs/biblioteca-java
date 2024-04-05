@@ -87,7 +87,7 @@ public class UsuarioController {
     }
 
     public boolean login(String usuario, String senha) {
-        String query = "SELECT COUNT(*) AS count FROM usuarios WHERE usuario = ? AND senha = ?";
+        String query = "SELECT COUNT(*) AS count FROM usuario WHERE nome = ? AND senha = ?";
 
         try (Connection conn = new ConnectionFactory().getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
 
@@ -143,5 +143,18 @@ public class UsuarioController {
         }
 
         return false;
+    }
+
+    public boolean salvarTipoUsuario(String tipoUsuario) {
+        String query = "INSERT INTO tipo_usuario (tipo) VALUES (?)";
+        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, tipoUsuario);
+            statement.executeUpdate();
+            System.out.println("Tipo de usuário cadastrado com sucesso.");
+            return true;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao cadastrar tipo de usuário", e);
+            return false;
+        }
     }
 }

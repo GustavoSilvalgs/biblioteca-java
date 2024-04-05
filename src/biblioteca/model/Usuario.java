@@ -16,6 +16,12 @@ public class Usuario {
         this.tipo = tipo;
     }
     
+    public Usuario(String nome, String senha, String tipo) {
+        this.nome = nome;
+        this.senha = senha;
+        this.tipo = tipo;
+    }
+    
     public int getId() {
         return id;
     }
