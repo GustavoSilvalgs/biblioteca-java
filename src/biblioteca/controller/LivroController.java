@@ -127,7 +127,7 @@ public class LivroController {
             statement.setInt(1, livroId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String statusLivro = resultSet.getString("status");
+                    String statusLivro = resultSet.getString("status_livro");
                     return "disponivel".equalsIgnoreCase(statusLivro);
                 }
             }
@@ -139,6 +139,11 @@ public class LivroController {
     }
 
     public void atualizarStatusLivro(int livroId, String novoStatus) {
+        if (!"disponivel".equals(novoStatus) && !"reservado".equals(novoStatus) && !"pre_reservado".equals(novoStatus)) {
+            LOGGER.log(Level.WARNING, "Tentativa de atualização de status com valor inválido: " + novoStatus);
+            return;
+        }
+
         String query = "UPDATE Livro SET status = ? WHERE id = ?";
         try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
 
@@ -150,10 +155,6 @@ public class LivroController {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erro ao atualizar status do livro", e);
         }
-    }
-
-    public boolean verificarLivroReservado(int livroId) {
-        return reservaController.verificarLivroReservado(livroId);
     }
 
     public boolean verificarEmprestimoParaUsuarioAtual(int livroId, int usuarioId) {

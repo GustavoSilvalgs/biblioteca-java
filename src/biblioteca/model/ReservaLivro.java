@@ -1,23 +1,42 @@
 package biblioteca.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ReservaLivro {
+
     private int id;
     private int livroId;
     private int usuarioId;
-    private Date dataReserva;
-    private Date dataDevolucao;
+    private LocalDate dataReserva;
+    private LocalDate dataDevolucao;
+    private boolean preReserva;
 
     public ReservaLivro() {
     }
 
-    public ReservaLivro(int id, int livroId, int usuarioId, Date dataReserva, Date dataDevolucao) {
+    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva) {
+        this.id = id;
+        this.livroId = livroId;
+        this.usuarioId = usuarioId;
+        this.dataReserva = dataReserva;
+    }
+   
+
+    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva, LocalDate dataDevolucao) {
         this.id = id;
         this.livroId = livroId;
         this.usuarioId = usuarioId;
         this.dataReserva = dataReserva;
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva, LocalDate dataDevolucao, boolean preReserva) {
+        this.id = id;
+        this.livroId = livroId;
+        this.usuarioId = usuarioId;
+        this.dataReserva = dataReserva;
+        this.dataDevolucao = dataDevolucao;
+        this.preReserva = preReserva;
     }
 
     public int getId() {
@@ -44,19 +63,27 @@ public class ReservaLivro {
         this.usuarioId = usuarioId;
     }
 
-    public Date getDataReserva() {
+    public LocalDate getDataReserva() {
         return dataReserva;
     }
 
-    public void setDataReserva(Date dataReserva) {
+    public void setDataReserva(LocalDate dataReserva) {
         this.dataReserva = dataReserva;
     }
 
-    public Date getDataDevolucao() {
+    public LocalDate getDataDevolucao() {
         return dataDevolucao;
     }
 
-    public void setDataDevolucao(Date dataDevolucao) {
+    public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public boolean isPreReserva() {
+        return preReserva;
+    }
+
+    public void setPreReserva(boolean preReserva) {
+        this.preReserva = preReserva;
     }
 }

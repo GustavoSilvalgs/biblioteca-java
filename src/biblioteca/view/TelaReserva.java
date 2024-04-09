@@ -13,11 +13,6 @@ public final class TelaReserva extends javax.swing.JFrame {
 
     private final LivroController livroController;
     private final ReservaController reservaController;
-    private Usuario usuarioAtual;
-
-    public void setUsuarioAtual(Usuario usuario) {
-        this.usuarioAtual = usuario;
-    }
 
     public TelaReserva() {
         initComponents();
@@ -62,17 +57,17 @@ public final class TelaReserva extends javax.swing.JFrame {
 
         tbLivros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Título", "Status", "Id Usuario", "Quantidade Diarias"
+                "Código", "Título", "Status", "Id Usuario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -130,47 +125,46 @@ public final class TelaReserva extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(79, 79, 79)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(112, 112, 112)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jLabel2)
-                                        .addGap(12, 12, 12))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(11, 11, 11)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txtCodigoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(btnReservarLivro)))))
-                                .addGap(101, 101, 101)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(14, 14, 14))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(btnDevolverLivro)
-                                                .addComponent(txtCodigoDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel2)
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(11, 11, 11)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtCodigoReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnReservarLivro)))))
+                        .addGap(101, 101, 101)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(14, 14, 14))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnDevolverLivro)
+                                        .addComponent(txtCodigoDevolver, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -205,7 +199,7 @@ public final class TelaReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoReservaActionPerformed
 
     private void txtCodigoDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoDevolverActionPerformed
-        int livroId = Integer.parseInt(txtCodigoDevolver.getText()); 
+        int livroId = Integer.parseInt(txtCodigoDevolver.getText());
 
         LivroController livroController = new LivroController();
         ReservaController reservaController = new ReservaController();
@@ -224,33 +218,51 @@ public final class TelaReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoDevolverActionPerformed
 
     private void btnDevolverLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverLivroActionPerformed
-        int livroId = Integer.parseInt(txtCodigoDevolver.getText());
-
-        if (livroController.verificarDisponibilidadeLivro(livroId)) {
-            System.out.println("Livro não pode ser devolvido, pois não está reservado.");
-        } else {
-            livroController.atualizarStatusLivro(livroId, "disponível");
-            System.out.println("Livro devolvido com sucesso. Status atualizado para disponível.");
-            txtCodigoDevolver.setText("");
+        int livroId;
+        try {
+            livroId = Integer.parseInt(txtCodigoDevolver.getText());
+        } catch (NumberFormatException ex) {
+            System.out.println("Por favor, insira um ID de livro válido.");
+            return;
         }
+
+        if (!reservaController.verificarLivroReservado(livroId)) {
+            System.out.println("O livro não pode ser devolvido, pois não está reservado.");
+            return;
+        }
+
+        reservaController.devolverLivro(livroId);
+        livroController.atualizarStatusLivro(livroId, "disponível");
+        System.out.println("Livro devolvido com sucesso. Status atualizado para disponível.");
+        txtCodigoDevolver.setText("");
         loadTableLivros();
     }//GEN-LAST:event_btnDevolverLivroActionPerformed
 
     private void btnReservarLivroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarLivroActionPerformed
-        try {
-            int livroId = Integer.parseInt(txtCodigoReserva.getText().trim());
-            if (livroController.verificarDisponibilidadeLivro(livroId)) {
-                reservaController.fazerReserva(livroId);
-                livroController.atualizarStatusLivro(livroId, "reservado");
-                JOptionPane.showMessageDialog(this, "Livro reservado com sucesso.");
-            } else {
-                JOptionPane.showMessageDialog(this, "O livro selecionado já está reservado.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            }
-            txtCodigoReserva.setText("");
-            loadTableLivros();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira um código válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        String codigoLivroStr = txtCodigoReserva.getText().trim();
+        if (codigoLivroStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira o código do livro.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+
+        int livroId;
+        try {
+            livroId = Integer.parseInt(codigoLivroStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "O código do livro deve ser um número.", "Formato inválido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (livroController.verificarDisponibilidadeLivro(livroId)) {
+            reservaController.fazerReserva(livroId);
+            livroController.atualizarStatusLivro(livroId, "reservado");
+            loadTableLivros();
+            System.out.println("Livro reservado com sucesso.");
+            txtCodigoReserva.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "O livro selecionado já está reservado.", "Livro indisponível", JOptionPane.WARNING_MESSAGE);
+        }
+        loadTableLivros();
     }//GEN-LAST:event_btnReservarLivroActionPerformed
 
     public static void main(String args[]) {

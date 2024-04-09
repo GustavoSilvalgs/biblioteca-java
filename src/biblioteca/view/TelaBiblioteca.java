@@ -2,8 +2,10 @@ package biblioteca.view;
 
 import biblioteca.controller.AutorController;
 import biblioteca.controller.LivroController;
+import biblioteca.controller.MultaController;
 import biblioteca.model.Autor;
 import biblioteca.model.Livro;
+import biblioteca.model.Multa;
 import biblioteca.model.Usuario;
 import java.sql.Date;
 import java.text.ParseException;
@@ -17,6 +19,7 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
 
     ArrayList<Autor> listaAutor;
     ArrayList<Livro> listaLivro;
+    ArrayList<Multa> listaMulta;
 
     public void loadTableAutores() {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Código", "Nome", "Sobrenome"}, 0);
@@ -28,7 +31,7 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
             row[1] = autor.getNome();
             row[2] = autor.getSobrenome();
             model.addRow(row);
-            listaAutor.add(autor); // Populando a lista de autores
+            listaAutor.add(autor);
         }
         tbAutores.setModel(model);
     }
@@ -49,14 +52,32 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         tbLivros.setModel(model);
     }
 
+    public void loadTableMultas() {
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Código", "Reserva ID", "Valor", "Data Aplicação"}, 0);
+        MultaController mc = new MultaController();
+        List<Multa> multas = mc.listarMultas();
+        for (Multa multa : multas) {
+            Object[] row = new Object[4];
+            row[0] = multa.getId();
+            row[1] = multa.getReservaId();
+            row[2] = multa.getValor();
+            row[3] = multa.getDataAplicacao();
+            model.addRow(row);
+            listaMulta.add(multa);
+        }
+        tbMultas.setModel(model);
+    }
+
     public TelaBiblioteca() {
         initComponents();
         setLocationRelativeTo(null);
         listaAutor = new ArrayList();
         listaLivro = new ArrayList();
+        listaMulta = new ArrayList<>();
         handleInterface("Navigate");
         loadTableAutores();
         loadTableLivros();
+        loadTableMultas();
     }
 
     private void handleInterface(String mode) {
@@ -131,13 +152,6 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         btnNewAutor = new javax.swing.JButton();
         btnEditAutor = new javax.swing.JButton();
         btnDeleteAutor = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JPasswordField();
-        txtUsuario = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        btnLogin = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbLivros = new javax.swing.JTable();
@@ -155,6 +169,14 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         btnNewLivro = new javax.swing.JButton();
         btnEditLivro = new javax.swing.JButton();
         btnDeleteLivro = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        btnPagarMulta = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbMultas = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        btnTelaReserva = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         jMenu3.setText("jMenu3");
@@ -337,79 +359,10 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
                         .addComponent(btnEditAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDeleteAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         tbdPainelAutores.addTab("Autores", jPanel4);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("LOGIN");
-
-        txtSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSenhaActionPerformed(evt);
-            }
-        });
-
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Senha");
-
-        jLabel6.setText("Usuário");
-
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(179, 179, 179)
-                        .addComponent(btnLogin)))
-                .addContainerGap(185, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(33, 33, 33)
-                .addComponent(btnLogin)
-                .addContainerGap(110, Short.MAX_VALUE))
-        );
-
-        tbdPainelAutores.addTab("Login", jPanel3);
 
         tbLivros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -436,6 +389,10 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tbLivros);
+        if (tbLivros.getColumnModel().getColumnCount() > 0) {
+            tbLivros.getColumnModel().getColumn(2).setHeaderValue("Data Publicação");
+            tbLivros.getColumnModel().getColumn(3).setHeaderValue("Id do Autor");
+        }
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Detalhes do Autor"));
 
@@ -591,6 +548,108 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         jPanel5.getAccessibleContext().setAccessibleName("Detalhes do Livro");
 
         tbdPainelAutores.addTab("Livros", jPanel1);
+
+        jLabel5.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        jLabel5.setText("MULTAS DO USUÁRIO");
+
+        btnPagarMulta.setText("Pagar Multa");
+        btnPagarMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarMultaActionPerformed(evt);
+            }
+        });
+
+        tbMultas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Código", "Reserva Id", "Valor ", "Data Aplicacao"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tbMultas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbMultasMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbMultas);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(117, 117, 117))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnPagarMulta)
+                        .addGap(188, 188, 188))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(btnPagarMulta)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        tbdPainelAutores.addTab("Multas", jPanel3);
+
+        jLabel4.setFont(new java.awt.Font("Arial Black", 0, 18)); // NOI18N
+        jLabel4.setText("IR PARA TELA DE RESERVAS");
+
+        btnTelaReserva.setText("RESERVAS");
+        btnTelaReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTelaReservaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(96, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(91, 91, 91))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(187, 187, 187)
+                .addComponent(btnTelaReserva)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(btnTelaReserva)
+                .addContainerGap(232, Short.MAX_VALUE))
+        );
+
+        tbdPainelAutores.addTab("Reserva", jPanel6);
 
         setJMenuBar(jMenuBar1);
 
@@ -881,42 +940,34 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tbLivrosMouseClicked
 
-    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
-        login();
-    }//GEN-LAST:event_txtSenhaActionPerformed
-
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
-        login();
-    }//GEN-LAST:event_txtUsuarioActionPerformed
-
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        login();
-    }//GEN-LAST:event_btnLoginActionPerformed
-
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-    
+
     }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void login() {
-        String usuario = txtUsuario.getText();
-        String senha = new String(txtSenha.getPassword());
+    private void btnTelaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTelaReservaActionPerformed
+        TelaReserva telaReserva = new TelaReserva();
+        telaReserva.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTelaReservaActionPerformed
 
-        List<Usuario> usuarios = new ArrayList<>();
-        usuarios.add(new Usuario(1, "admin", "admin", "admin"));
-        usuarios.add(new Usuario(2, "operador", "operador", "operador"));
+    private void tbMultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMultasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbMultasMouseClicked
 
-        for (Usuario u : usuarios) {
-            if (u.getNome().equals(usuario) && u.getSenha().equals(senha)) {
-                JOptionPane.showMessageDialog(this, "Login bem-sucedido!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                TelaReserva telaReserva = new TelaReserva();
-                telaReserva.setVisible(true);
-                this.dispose();
-                return;
-            }
+    private void btnPagarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarMultaActionPerformed
+        int selectedRow = tbMultas.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione uma multa para pagar.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        JOptionPane.showMessageDialog(this, "Credenciais inválidas. Por favor, tente novamente.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
-    }
+        int multaId = (int) tbMultas.getValueAt(selectedRow, 0);
+
+        MultaController multaController = new MultaController();
+        multaController.pagarMulta(multaId);
+
+        loadTableMultas();
+    }//GEN-LAST:event_btnPagarMultaActionPerformed
 
     public static void main(String args[]) throws InstantiationException, IllegalAccessException {
 
@@ -934,11 +985,12 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteLivro;
     private javax.swing.JButton btnEditAutor;
     private javax.swing.JButton btnEditLivro;
-    private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnNewAutor;
     private javax.swing.JButton btnNewLivro;
+    private javax.swing.JButton btnPagarMulta;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSave1;
+    private javax.swing.JButton btnTelaReserva;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -946,7 +998,6 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
@@ -959,19 +1010,20 @@ public final class TelaBiblioteca extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tbAutores;
     private javax.swing.JTable tbLivros;
+    private javax.swing.JTable tbMultas;
     private javax.swing.JTabbedPane tbdPainelAutores;
     private javax.swing.JTextField txtData;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtIdAutor;
     private javax.swing.JTextField txtIdLivro;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtSobrenome;
     private javax.swing.JTextField txtTitulo;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

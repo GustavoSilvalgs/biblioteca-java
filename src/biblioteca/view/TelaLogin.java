@@ -19,8 +19,6 @@ public class TelaLogin extends javax.swing.JFrame {
         atualizarListaUsuarios();
     }
     
-    
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,8 +144,8 @@ public class TelaLogin extends javax.swing.JFrame {
 
         if (!usuario.isEmpty() && !senha.isEmpty()) {
             if (usuarioController.login(usuario, senha)) {
-                TelaReserva telaReserva = new TelaReserva();
-                telaReserva.setVisible(true);
+                TelaBiblioteca telaBiblioteca = new TelaBiblioteca();
+                telaBiblioteca.setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Usuário ou senha incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);

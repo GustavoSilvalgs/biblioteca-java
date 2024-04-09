@@ -1,15 +1,22 @@
 package biblioteca.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Multa {
     private int id;
     private int reservaId;
     private BigDecimal valor;
-    private Date dataAplicacao;
+    private Timestamp dataAplicacao;
 
     public Multa() {
+    }
+
+    public Multa(int id, int reservaId, BigDecimal valor, Timestamp dataAplicacao) {
+        this.id = id;
+        this.reservaId = reservaId;
+        this.valor = valor;
+        this.dataAplicacao = dataAplicacao;
     }
 
     public int getId() {
@@ -36,11 +43,11 @@ public class Multa {
         this.valor = valor;
     }
 
-    public Date getDataAplicacao() {
+    public Timestamp getDataAplicacao() {
         return dataAplicacao;
     }
 
-    public void setDataAplicacao(Date dataAplicacao) {
+    public void setDataAplicacao(Timestamp dataAplicacao) {
         this.dataAplicacao = dataAplicacao;
     }
 }
