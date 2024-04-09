@@ -163,7 +163,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                 Usuario novoUsuario = new Usuario(nomeUsuario, senha, tipoUsuario);
 
                 usuarioController.cadastrarUsuario(novoUsuario);
-                TelaLogin.atualizarListaUsuariosStatic();
+                TelaLogin.atualizarListaUsuariosStatic(); 
                 
                 txtUsuario.setText("");
                 txtSenha.setText("");

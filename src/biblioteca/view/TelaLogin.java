@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 
 public class TelaLogin extends javax.swing.JFrame {
 
+    private static TelaLogin instance;
+    
     private UsuarioController usuarioController = new UsuarioController();
     private DefaultListModel<String> modelUsuarios = new DefaultListModel<>();
 
@@ -16,16 +18,8 @@ public class TelaLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         atualizarListaUsuarios();
     }
-
-    private void atualizarListaUsuarios() {
-        modelUsuarios.clear();
-
-        List<Usuario> usuarios = usuarioController.listarUsuarios();
-
-        for (Usuario usuario : usuarios) {
-            modelUsuarios.addElement(usuario.getNome());
-        }
-    }   
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -162,7 +156,32 @@ public class TelaLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+    
+     public static void atualizarListaUsuariosStatic() {
+        TelaLogin telaLogin = getInstance();
 
+        if (telaLogin != null) {
+            telaLogin.atualizarListaUsuarios();
+        }
+    }
+    
+    private void atualizarListaUsuarios() {
+        modelUsuarios.clear();
+
+        List<Usuario> usuarios = usuarioController.listarUsuarios();
+
+        for (Usuario usuario : usuarios) {
+            modelUsuarios.addElement(usuario.getNome());
+        }
+    }
+
+    public static TelaLogin getInstance() {
+        if (instance == null) {
+            instance = new TelaLogin();
+        }
+        return instance;
+    }
+    
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
