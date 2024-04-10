@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,9 +32,10 @@ public class ReservaController {
                 int id = resultSet.getInt("id");
                 int livroId = resultSet.getInt("livro_id");
                 int usuarioId = resultSet.getInt("usuario_id");
-                LocalDate dataReserva = resultSet.getDate("data_reserva").toLocalDate();
+                Date dataReserva = resultSet.getDate("data_reserva");
+                Date dataDevolucao = resultSet.getDate("data_devolucao");
 
-                ReservaLivro reserva = new ReservaLivro(id, livroId, usuarioId, dataReserva);
+                ReservaLivro reserva = new ReservaLivro(id, livroId, usuarioId, dataReserva, dataDevolucao);
                 reservas.add(reserva);
             }
         } catch (SQLException e) {
@@ -47,7 +47,8 @@ public class ReservaController {
 
     public void fazerReserva(int livroId) {
         String query = "INSERT INTO reserva_livro (livro_id, data_reserva) VALUES (?, NOW())";
-        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
+        try (Connection conn = connectionFactory.getConnection(); 
+             PreparedStatement statement = conn.prepareStatement(query)) {
 
             statement.setInt(1, livroId);
             statement.executeUpdate();
@@ -58,38 +59,38 @@ public class ReservaController {
         }
     }
 
-    public void devolverLivro(int livroId) {
-        String query = "UPDATE reserva_livro SET data_devolucao = NOW() WHERE livro_id = ? AND data_devolucao IS NULL";
+    public void devolverLivro(int reservaId) {
+        String query = "UPDATE reserva_livro SET data_devolucao = NOW() WHERE id = ?";
         try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
 
-            statement.setInt(1, livroId);
+            statement.setInt(1, reservaId);
             statement.executeUpdate();
 
-            System.out.println("Livro devolvido com sucesso. Data de devolução registrada.");
+            System.out.println("Livro devolvido com sucesso.");
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erro ao devolver livro", e);
         }
     }
 
     public boolean verificarLivroReservado(int livroId) {
-        String query = "SELECT COUNT(*) AS quantidade FROM reserva_livro WHERE livro_id = ? AND data_devolucao IS NULL";
-        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setInt(1, livroId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    int quantidade = resultSet.getInt("quantidade");
-                    return quantidade > 0;
-                }
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Erro ao verificar se o livro está reservado", e);
+    String query = "SELECT COUNT(*) AS quantidade FROM reserva_livro WHERE livro_id = ?";
+    try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
+        statement.setInt(1, livroId);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            int quantidade = resultSet.getInt("quantidade");
+            return quantidade > 0;
         }
-        return false;
+    } catch (SQLException e) {
+        LOGGER.log(Level.SEVERE, "Erro ao verificar se o livro está reservado", e);
     }
+    return false;
+}
 
     public void atualizarStatusLivro(int livroId, String novoStatus) {
-        String query = "UPDATE livro SET status = ? WHERE id = ?";
-        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
+        String query = "UPDATE livro SET status_livro = ? WHERE id = ?";
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement statement = conn.prepareStatement(query)) {
 
             statement.setString(1, novoStatus);
             statement.setInt(2, livroId);
@@ -98,20 +99,6 @@ public class ReservaController {
             System.out.println("Status do livro atualizado para: " + novoStatus);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erro ao atualizar status do livro", e);
-        }
-    }
-
-    public void fazerPreReserva(int livroId) {
-        String query = "INSERT INTO reserva_livro (livro_id, data_reserva, data_devolucao, pre_reserva) VALUES (?, NOW(), NULL, ?)";
-        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
-
-            statement.setInt(1, livroId);
-            statement.setBoolean(2, true);
-            statement.executeUpdate();
-
-            System.out.println("Pré-reserva realizada com sucesso.");
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Erro ao fazer pré-reserva", e);
         }
     }
 }

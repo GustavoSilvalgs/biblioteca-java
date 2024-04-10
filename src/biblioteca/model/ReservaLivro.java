@@ -1,20 +1,20 @@
 package biblioteca.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class ReservaLivro {
 
     private int id;
     private int livroId;
     private int usuarioId;
-    private LocalDate dataReserva;
-    private LocalDate dataDevolucao;
+    private Date dataReserva;
+    private Date dataDevolucao;
     private boolean preReserva;
 
     public ReservaLivro() {
     }
 
-    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva) {
+    public ReservaLivro(int id, int livroId, int usuarioId, Date dataReserva) {
         this.id = id;
         this.livroId = livroId;
         this.usuarioId = usuarioId;
@@ -22,7 +22,7 @@ public class ReservaLivro {
     }
    
 
-    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva, LocalDate dataDevolucao) {
+    public ReservaLivro(int id, int livroId, int usuarioId, Date dataReserva, Date dataDevolucao) {
         this.id = id;
         this.livroId = livroId;
         this.usuarioId = usuarioId;
@@ -30,7 +30,7 @@ public class ReservaLivro {
         this.dataDevolucao = dataDevolucao;
     }
 
-    public ReservaLivro(int id, int livroId, int usuarioId, LocalDate dataReserva, LocalDate dataDevolucao, boolean preReserva) {
+    public ReservaLivro(int id, int livroId, int usuarioId, Date dataReserva, Date dataDevolucao, boolean preReserva) {
         this.id = id;
         this.livroId = livroId;
         this.usuarioId = usuarioId;
@@ -38,7 +38,7 @@ public class ReservaLivro {
         this.dataDevolucao = dataDevolucao;
         this.preReserva = preReserva;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -63,19 +63,19 @@ public class ReservaLivro {
         this.usuarioId = usuarioId;
     }
 
-    public LocalDate getDataReserva() {
+    public Date getDataReserva() {
         return dataReserva;
     }
 
-    public void setDataReserva(LocalDate dataReserva) {
+    public void setDataReserva(Date dataReserva) {
         this.dataReserva = dataReserva;
     }
 
-    public LocalDate getDataDevolucao() {
+    public Date getDataDevolucao() {
         return dataDevolucao;
     }
 
-    public void setDataDevolucao(LocalDate dataDevolucao) {
+    public void setDataDevolucao(Date dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
 

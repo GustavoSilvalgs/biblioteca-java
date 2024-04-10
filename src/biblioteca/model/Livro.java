@@ -22,7 +22,7 @@ public class Livro {
         this.quantidadeEstoque = quantidadeEstoque;
         this.status = status;
     }
-    
+
     public Livro(String titulo, Date dataPublicacao, int autorId, int quantidadeEstoque, String status) {
         this.titulo = titulo;
         this.dataPublicacao = dataPublicacao;
@@ -32,10 +32,17 @@ public class Livro {
     }
 
     public Livro(String titulo, Date dataPublicacao, int autorId) {
-    this.titulo = titulo;
-    this.dataPublicacao = dataPublicacao;
-    this.autorId = autorId;
-}
+        this.titulo = titulo;
+        this.dataPublicacao = dataPublicacao;
+        this.autorId = autorId;
+    }
+
+        public Livro(int id, String titulo, Date dataPublicacao, int autorId) {
+        this.id = id;
+        this.titulo = titulo;
+        this.dataPublicacao = dataPublicacao;
+        this.autorId = autorId;
+    }
     
     public int getId() {
         return id;
