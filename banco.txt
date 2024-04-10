@@ -1,0 +1,239 @@
+create database biblioteca;
+use biblioteca;
+
+CREATE TABLE Autor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    sobrenome VARCHAR(255)
+);
+
+CREATE TABLE Livro (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255),
+    data_publicacao DATE,
+    autor_id INT,
+    quantidade_estoque INT,
+    status ENUM ('disponivel', 'reservado', 'pre_reservado') DEFAULT 'disponivel',
+    FOREIGN KEY (autor_id) REFERENCES Autor(id)
+);
+
+CREATE TABLE Usuario (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    senha VARCHAR(255),
+    tipo ENUM ('admin', 'operador')
+);
+
+CREATE TABLE Reserva_Livro (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    livro_id INT,
+    usuario_id INT,
+    data_reserva DATE,
+    data_devolucao DATE,
+    FOREIGN KEY (livro_id) REFERENCES Livro(id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+);
+
+CREATE TABLE Multa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    reserva_id INT,
+    valor DECIMAL(10, 2),
+    data_aplicacao DATETIME,
+    FOREIGN KEY (reserva_id) REFERENCES Reserva_Livro(id)
+);
+
+CREATE TABLE Autores_Deletados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    sobrenome VARCHAR(255),
+    data_delecao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Livros_Deletados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(255),
+    data_publicacao DATE,
+    autor_id INT,
+    quantidade_estoque INT,
+    data_delecao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Usuarios_Deletados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    senha VARCHAR(255),
+    tipo ENUM ('admin', 'operador'),
+    data_delecao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Autores_Atualizados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_anterior VARCHAR(255),
+    sobrenome_anterior VARCHAR(255),
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Livros_Atualizados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo_anterior VARCHAR(255),
+    data_publicacao_anterior DATE,
+    quantidade_estoque_anterior INT,
+    status_anterior ENUM ('disponivel', 'reservado', 'pre_reservado'),
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Usuarios_Atualizados (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_anterior VARCHAR(255),
+    senha_anterior VARCHAR(255),
+    tipo_anterior ENUM ('admin', 'operador'),
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trigger para verificar atrasos na devolução e lançar multas
+DELIMITER //
+
+CREATE TRIGGER VerificarAtraso
+BEFORE INSERT ON Reserva_Livro
+FOR EACH ROW
+BEGIN
+    DECLARE dias_alocados INT;
+    DECLARE dias_atraso INT;
+
+    SELECT DATEDIFF(NEW.data_devolucao, NEW.data_reserva) INTO dias_alocados;
+
+    IF dias_alocados > 0 THEN
+        SET dias_atraso = DATEDIFF(NOW(), NEW.data_devolucao);
+        IF dias_atraso > 0 THEN
+            INSERT INTO Multa (reserva_id, valor, data_aplicacao)
+            VALUES (NEW.id, dias_atraso * 5, NOW());
+        END IF;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+-- Trigger para mover autor para tabela Autores_Deletados antes de ser deletado
+DELIMITER //
+
+CREATE TRIGGER MoverAutorParaAutoresDeletados
+BEFORE DELETE ON Autor
+FOR EACH ROW
+BEGIN
+    INSERT INTO Autores_Deletados (nome, sobrenome)
+    VALUES (OLD.nome, OLD.sobrenome);
+END;
+//
+
+DELIMITER ;
+
+-- Trigger para mover livro para tabela Livros_Deletados antes de ser deletado
+DELIMITER //
+
+CREATE TRIGGER MoverLivroParaLivrosDeletados
+BEFORE DELETE ON Livro
+FOR EACH ROW
+BEGIN
+    INSERT INTO Livros_Deletados (titulo, data_publicacao, autor_id, quantidade_estoque)
+    VALUES (OLD.titulo, OLD.data_publicacao, OLD.autor_id, OLD.quantidade_estoque);
+END;
+//
+
+DELIMITER ;
+
+-- Trigger para mover usuário para tabela Usuarios_Deletados antes de ser deletado
+DELIMITER //
+
+CREATE TRIGGER MoverUsuarioParaUsuariosDeletados
+BEFORE DELETE ON Usuario
+FOR EACH ROW
+BEGIN
+    INSERT INTO Usuarios_Deletados (nome, senha, tipo)
+    VALUES (OLD.nome, OLD.senha, OLD.tipo);
+END;
+//
+
+DELIMITER ;
+
+-- Criação da stored procedure para inserir dados iniciais
+DELIMITER //
+
+CREATE PROCEDURE PopularDados()
+BEGIN
+    -- Inserir autores
+    INSERT INTO Autor (nome, sobrenome) VALUES ('Autor1Nome', 'Autor1Sobrenome');
+    INSERT INTO Autor (nome, sobrenome) VALUES ('Autor2Nome', 'Autor2Sobrenome');
+    INSERT INTO Autor (nome, sobrenome) VALUES ('Autor3Nome', 'Autor3Sobrenome');
+
+    -- Inserir livros
+    INSERT INTO Livro (titulo, data_publicacao, autor_id, quantidade_estoque, status) 
+    VALUES ('Livro1', '2024-01-01', 1, 10, 'disponivel');
+    INSERT INTO Livro (titulo, data_publicacao, autor_id, quantidade_estoque, status) 
+    VALUES ('Livro2', '2024-02-01', 2, 10, 'disponivel');
+    INSERT INTO Livro (titulo, data_publicacao, autor_id, quantidade_estoque, status) 
+    VALUES ('Livro3', '2024-03-01', 3, 10, 'disponivel');
+
+    -- Inserir usuários
+    INSERT INTO Usuario (nome, senha, tipo) VALUES ('Usuario1', 'senha1', 'admin');
+    INSERT INTO Usuario (nome, senha, tipo) VALUES ('Usuario2', 'senha2', 'operador');
+    INSERT INTO Usuario (nome, senha, tipo) VALUES ('Usuario3', 'senha3', 'operador');
+END;
+//
+
+DELIMITER ;
+
+-- Criação da stored procedure para listar autores
+DELIMITER //
+
+CREATE PROCEDURE ListarAutores()
+BEGIN
+    SELECT * FROM Autor;
+END;
+//
+
+DELIMITER ;
+
+-- Criação da stored procedure para listar livros
+DELIMITER //
+
+CREATE PROCEDURE ListarLivros()
+BEGIN
+    SELECT * FROM Livro;
+END;
+//
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER antes_de_atualizar_livro
+BEFORE UPDATE ON Livro
+FOR EACH ROW
+BEGIN
+    IF OLD.titulo != NEW.titulo OR OLD.data_publicacao != NEW.data_publicacao OR OLD.quantidade_estoque != NEW.quantidade_estoque OR OLD.status != NEW.status THEN
+        INSERT INTO Livros_Atualizados (titulo_anterior, data_publicacao_anterior, quantidade_estoque_anterior, status_anterior)
+        VALUES (OLD.titulo, OLD.data_publicacao, OLD.quantidade_estoque, OLD.status);
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER antes_de_atualizar_autor
+BEFORE UPDATE ON Autor
+FOR EACH ROW
+BEGIN
+    IF OLD.nome != NEW.nome OR OLD.sobrenome != NEW.sobrenome THEN
+        INSERT INTO Autores_Atualizados (nome_anterior, sobrenome_anterior)
+        VALUES (OLD.nome, OLD.sobrenome);
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+call PopularDados();
