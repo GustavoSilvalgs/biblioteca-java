@@ -27,7 +27,7 @@ public class LivroController {
             statement.setString(1, livro.getTitulo());
             statement.setDate(2, livro.getDataPublicacao());
             statement.setInt(3, livro.getAutorId());
-            statement.setString(4, "disponível"); 
+            statement.setString(4, "disponível");
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -111,6 +111,22 @@ public class LivroController {
         return false;
     }
 
+    public String getStatusLivro(int livroId) {
+        String query = "SELECT status FROM livro WHERE id = ?";
+        try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setInt(1, livroId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("status");
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao obter status do livro", e);
+        }
+        return null;
+    }
+
     public void atualizarStatusLivro(int livroId, String novoStatus) {
         String query = "UPDATE livro SET status = ? WHERE id = ?";
         try (Connection conn = connectionFactory.getConnection(); PreparedStatement statement = conn.prepareStatement(query)) {
@@ -139,11 +155,11 @@ public class LivroController {
 
             if (resultSet.next()) {
                 int quantidade = resultSet.getInt("quantidade");
-                return quantidade > 0; 
+                return quantidade > 0;
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Erro ao verificar empréstimo do livro para o usuário atual", e);
         }
-        return false; 
+        return false;
     }
 }

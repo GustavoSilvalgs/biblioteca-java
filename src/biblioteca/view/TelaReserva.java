@@ -64,17 +64,17 @@ public final class TelaReserva extends javax.swing.JFrame {
 
         tbLivros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Título", "Status"
+                "Código", "Título", "Status", "Id Usuario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -215,7 +215,7 @@ public final class TelaReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoReservaActionPerformed
 
     private void txtCodigoDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoDevolverActionPerformed
-        int livroId = Integer.parseInt(txtCodigoDevolver.getText()); 
+        int livroId = Integer.parseInt(txtCodigoDevolver.getText());
 
         LivroController livroController = new LivroController();
         ReservaController reservaController = new ReservaController();
@@ -261,16 +261,23 @@ public final class TelaReserva extends javax.swing.JFrame {
             return;
         }
 
-        if (livroController.verificarDisponibilidadeLivro(livroId)) {
+        String statusLivro = livroController.getStatusLivro(livroId);
+        if (statusLivro.equals("disponivel")) {
             reservaController.fazerReserva(livroId);
             livroController.atualizarStatusLivro(livroId, "reservado");
-            loadTableLivros();
-            System.out.println("Livro reservado com sucesso.");
-            txtCodigoReserva.setText("");
+            JOptionPane.showMessageDialog(this, "Livro reservado com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else if (statusLivro.equals("reservado")) {
+            int resposta = JOptionPane.showConfirmDialog(this, "O livro selecionado já está reservado. Deseja fazer uma pré-reserva?", "Livro indisponível", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                reservaController.fazerReserva(livroId);
+                livroController.atualizarStatusLivro(livroId, "pre_reservado");
+                JOptionPane.showMessageDialog(this, "Pré-reserva realizada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "O livro selecionado já está reservado.", "Livro indisponível", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "O livro selecionado está pré-reservado.", "Livro indisponível", JOptionPane.WARNING_MESSAGE);
         }
         loadTableLivros();
+        txtCodigoReserva.setText("");
     }//GEN-LAST:event_btnReservarLivroActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
